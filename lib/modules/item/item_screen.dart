@@ -160,92 +160,160 @@ class _ItemScreenState extends State<ItemScreen> {
                                   if user choses book it for a job
                                   3-  display tff to inter work order mandatory*/
                                 scaffoldKey.currentState!.showBottomSheet(
-                                  (context) => Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 10,
-                                          offset: Offset(0, 3),
-                                        ),
-                                      ],
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(40.0),
-                                        topRight: Radius.circular(40.0),
-                                      ),
-                                    ),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                                height: 3,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey,
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                )),
-                                          ),
-                                          const Text(
-                                            "Check out",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          ),
-                                          DropdownButton<String>(
-                                            value: dropdownValue,
-                                            icon: const Icon(
-                                                Icons.arrow_drop_down),
-                                            iconSize: 24,
-                                            elevation: 16,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                            onChanged: (String? newValue) {
-                                              setState(() {
-                                                dropdownValue = newValue;
-                                              });
-                                            },
-                                            items: <String>[
-                                              'Assign',
-                                              'Lend',
-                                            ].map<DropdownMenuItem<String>>(
-                                                (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          ),
-                                          SizedBox(
-                                            height: 200,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Container(
+                                    (context) => StatefulBuilder(builder:
+                                            (BuildContext context,
+                                                StateSetter setState) {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 3),
+                                                ),
+                                              ],
+                                              borderRadius: const BorderRadius.only(
+                                                topLeft: Radius.circular(40.0),
+                                                topRight: Radius.circular(40.0),
+                                              ),
+                                            ),
+                                            child: SizedBox(
                                               width: double.infinity,
-                                              child: DefaultButton(
-                                                  child: const Text(
-                                                    "Complete",
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Container(
+                                                        height: 3,
+                                                        width: 90,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.grey,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                        )),
+                                                  ),
+                                                  const Text(
+                                                    "Check out",
                                                     style: TextStyle(
-                                                      fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
+                                                  ),
+                                                  const SizedBox(height: 20,),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(left: 15.0),
+                                                    child: Align(alignment: Alignment.centerLeft,child: Text("choose:",style: TextStyle(color: Colors.grey),)),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 15.0),
+                                                    child: Container(
+                                                      width: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.08),
+                                                            spreadRadius: 7,
+                                                            blurRadius: 10,
+                                                            offset:
+                                                                const Offset(0, 3),
+                                                          ),
+                                                        ],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: DropdownButton<
+                                                          String>(
+                                                        value: dropdownValue,
+                                                        underline: Container(),
+
+                                                        icon: const Padding(
+                                                          padding:
+                                                              EdgeInsets
+                                                                  .only(
+                                                                  left: 160.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .keyboard_arrow_down_rounded,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                        iconSize: 24,
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15,
+                                                        ),
+                                                        onChanged:
+                                                            (String? newValue) {
+                                                          setState(() {
+                                                            dropdownValue =
+                                                                newValue;
+                                                          });
+                                                        },
+                                                        items: <String>[
+                                                          'Assign',
+                                                          'Lend',
+                                                        ].map<
+                                                            DropdownMenuItem<
+                                                                String>>((String
+                                                            value) {
+                                                          return DropdownMenuItem<
+                                                              String>(
+                                                            value: value,
+                                                            child: SizedBox(
+                                                                width: 170,
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              8.0),
+                                                                  child: Text(
+                                                                    value,
+                                                                  ),
+                                                                )),
+                                                          );
+                                                        }).toList(),
+                                                      ),
                                                     ),
                                                   ),
-                                                  onPressed: () {}),
+                                                  const SizedBox(
+                                                    height: 200,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20.0),
+                                                    child: SizedBox(
+                                                      width: double.infinity,
+                                                      child: DefaultButton(
+                                                          child: const Text(
+                                                            "Complete",
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                            ),
+                                                          ),
+                                                          onPressed: () {}),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                          );
+                                        }));
                               },
                             ),
                           ),
