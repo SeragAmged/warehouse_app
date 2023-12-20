@@ -274,7 +274,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                                               String>(
                                                             value: value,
                                                             child: SizedBox(
-                                                                width: 170,
+                                                                width: 150,
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
