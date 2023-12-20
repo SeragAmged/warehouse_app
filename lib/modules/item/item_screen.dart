@@ -15,6 +15,8 @@ class ItemScreen extends StatefulWidget {
 
 class _ItemScreenState extends State<ItemScreen> {
   final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _workOrderController = TextEditingController();
+  final TextEditingController _jobNameController = TextEditingController();
 
   String? dropdownValue = 'Assign';
   @override
@@ -320,7 +322,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                                               children: [
                                                                 defaultTextFormField(
                                                                   controller:
-                                                                      _companyController,
+                                                                      _workOrderController,
                                                                   type:
                                                                       TextInputType
                                                                           .text,
@@ -341,7 +343,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                                               children: [
                                                                 defaultTextFormField(
                                                                   controller:
-                                                                      _companyController,
+                                                                      _jobNameController,
                                                                   type:
                                                                       TextInputType
                                                                           .text,
