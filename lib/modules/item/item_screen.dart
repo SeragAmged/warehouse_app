@@ -6,8 +6,15 @@ import 'package:warehouse_app/modules/item/navbar_item.dart';
 import 'package:warehouse_app/shared/components/components.dart';
 import 'package:warehouse_app/styles/icon_broken.dart';
 
-class ItemScreen extends StatelessWidget {
+class ItemScreen extends StatefulWidget {
   const ItemScreen({super.key});
+
+  @override
+  State<ItemScreen> createState() => _ItemScreenState();
+}
+
+class _ItemScreenState extends State<ItemScreen> {
+  String? dropdownValue = 'Assign';
 
   @override
   Widget build(BuildContext context) {
@@ -142,51 +149,100 @@ class ItemScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                /* TODO : 
+                                /* TODO :
                                 implement the BottomSheet that is in design
                                 more details:
                                 for check out
                                   1-when user choses to lend the item
                                   display text form felid to inter company name mandatory
-                                  2-if user choses to assign it to a job  
+                                  2-if user choses to assign it to a job
                                   display tff to inter work order mandatory and optional to input jop name
                                   if user choses book it for a job
                                   3-  display tff to inter work order mandatory*/
                                 scaffoldKey.currentState!.showBottomSheet(
-                                  elevation: 20.0,
-                                  (context) => SizedBox(
-                                    width: double.infinity,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Text("Check out"),
-                                        DropdownButton<String>(
-                                          icon:
-                                              const Icon(Icons.arrow_downward),
-                                          iconSize: 24,
-                                          elevation: 16,
-                                          style: const TextStyle(
-                                            color: Colors.deepPurple,
-                                          ),
-                                          underline: Container(
-                                            height: 2,
-                                            color: Colors.deepPurpleAccent,
-                                          ),
-                                          onChanged: (String? newValue) {},
-                                          items: <String>[
-                                            'One',
-                                            'Two',
-                                            'Free',
-                                            'Four'
-                                          ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
+                                  (context) => Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 10,
+                                          offset: Offset(0, 3),
                                         ),
                                       ],
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(40.0),
+                                        topRight: Radius.circular(40.0),
+                                      ),
+                                    ),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                                height: 3,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                )),
+                                          ),
+                                          const Text(
+                                            "Check out",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          DropdownButton<String>(
+                                            value: dropdownValue,
+                                            icon: const Icon(
+                                                Icons.arrow_drop_down),
+                                            iconSize: 24,
+                                            elevation: 16,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
+                                            onChanged: (String? newValue) {
+                                              setState(() {
+                                                dropdownValue = newValue;
+                                              });
+                                            },
+                                            items: <String>[
+                                              'Assign',
+                                              'Lend',
+                                            ].map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                          ),
+                                          SizedBox(
+                                            height: 200,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: DefaultButton(
+                                                  child: const Text(
+                                                    "Complete",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {}),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
