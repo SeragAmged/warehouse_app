@@ -291,7 +291,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     ),
                                                   ),
                                                   const SizedBox(
-                                                    height: 200,
+                                                    height: 100,
                                                   ),
                                                   Padding(
                                                     padding:
