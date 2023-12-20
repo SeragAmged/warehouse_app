@@ -14,8 +14,9 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-  String? dropdownValue = 'Assign';
+  final TextEditingController _companyController = TextEditingController();
 
+  String? dropdownValue = 'Assign';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -175,7 +176,8 @@ class _ItemScreenState extends State<ItemScreen> {
                                                   offset: const Offset(0, 3),
                                                 ),
                                               ],
-                                              borderRadius: const BorderRadius.only(
+                                              borderRadius:
+                                                  const BorderRadius.only(
                                                 topLeft: Radius.circular(40.0),
                                                 topRight: Radius.circular(40.0),
                                               ),
@@ -207,10 +209,21 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             FontWeight.bold,
                                                         fontSize: 20),
                                                   ),
-                                                  const SizedBox(height: 20,),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
                                                   const Padding(
-                                                    padding: EdgeInsets.only(left: 15.0),
-                                                    child: Align(alignment: Alignment.centerLeft,child: Text("choose:",style: TextStyle(color: Colors.grey),)),
+                                                    padding: EdgeInsets.only(
+                                                        left: 15.0),
+                                                    child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                          "choose:",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                        )),
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets
@@ -228,7 +241,8 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             spreadRadius: 7,
                                                             blurRadius: 10,
                                                             offset:
-                                                                const Offset(0, 3),
+                                                                const Offset(
+                                                                    0, 3),
                                                           ),
                                                         ],
                                                         borderRadius:
@@ -239,11 +253,9 @@ class _ItemScreenState extends State<ItemScreen> {
                                                           String>(
                                                         value: dropdownValue,
                                                         underline: Container(),
-
                                                         icon: const Padding(
                                                           padding:
-                                                              EdgeInsets
-                                                                  .only(
+                                                              EdgeInsets.only(
                                                                   left: 160.0),
                                                           child: Icon(
                                                             Icons
@@ -291,6 +303,80 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     ),
                                                   ),
                                                   const SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                  Visibility(
+                                                    visible: (dropdownValue ==
+                                                        'Assign'),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            // height: 50,
+                                                            width: 250,
+                                                            child: Column(
+                                                              children: [
+                                                                defaultTextFormField(
+                                                                  controller:
+                                                                      _companyController,
+                                                                  type:
+                                                                      TextInputType
+                                                                          .text,
+                                                                  hint:
+                                                                      "Work Order...",
+                                                                  // prefix: Icons.qr_code_rounded,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          SizedBox(
+                                                            // height: 50,
+                                                            width: 250,
+                                                            child: Column(
+                                                              children: [
+                                                                defaultTextFormField(
+                                                                  controller:
+                                                                      _companyController,
+                                                                  type:
+                                                                      TextInputType
+                                                                          .text,
+                                                                  hint:
+                                                                      "Job Name...",
+                                                                  // prefix: Icons.qr_code_rounded,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                    visible: (dropdownValue ==
+                                                        'Lend'),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: SizedBox(
+                                                        width: 250,
+                                                        child:
+                                                            defaultTextFormField(
+                                                          controller:
+                                                              _companyController,
+                                                          type: TextInputType
+                                                              .text,
+                                                          hint: "Company...",
+                                                          // prefix: Icons.qr_code_rounded,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
                                                     height: 100,
                                                   ),
                                                   Padding(
@@ -306,7 +392,9 @@ class _ItemScreenState extends State<ItemScreen> {
                                                               fontSize: 20,
                                                             ),
                                                           ),
-                                                          onPressed: () {}),
+                                                          onPressed: () {
+                                                            setState(() {});
+                                                          }),
                                                     ),
                                                   )
                                                 ],
