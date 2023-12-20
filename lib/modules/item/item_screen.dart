@@ -14,8 +14,11 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-  String? dropdownValue = 'Assign';
+  final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _workOrderController = TextEditingController();
+  final TextEditingController _jobNameController = TextEditingController();
 
+  String? dropdownValue = 'Assign';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -175,7 +178,8 @@ class _ItemScreenState extends State<ItemScreen> {
                                                   offset: const Offset(0, 3),
                                                 ),
                                               ],
-                                              borderRadius: const BorderRadius.only(
+                                              borderRadius:
+                                                  const BorderRadius.only(
                                                 topLeft: Radius.circular(40.0),
                                                 topRight: Radius.circular(40.0),
                                               ),
@@ -207,10 +211,21 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             FontWeight.bold,
                                                         fontSize: 20),
                                                   ),
-                                                  const SizedBox(height: 20,),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
                                                   const Padding(
-                                                    padding: EdgeInsets.only(left: 15.0),
-                                                    child: Align(alignment: Alignment.centerLeft,child: Text("choose:",style: TextStyle(color: Colors.grey),)),
+                                                    padding: EdgeInsets.only(
+                                                        left: 15.0),
+                                                    child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                          "choose:",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                        )),
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets
@@ -228,7 +243,8 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             spreadRadius: 7,
                                                             blurRadius: 10,
                                                             offset:
-                                                                const Offset(0, 3),
+                                                                const Offset(
+                                                                    0, 3),
                                                           ),
                                                         ],
                                                         borderRadius:
@@ -239,11 +255,9 @@ class _ItemScreenState extends State<ItemScreen> {
                                                           String>(
                                                         value: dropdownValue,
                                                         underline: Container(),
-
                                                         icon: const Padding(
                                                           padding:
-                                                              EdgeInsets
-                                                                  .only(
+                                                              EdgeInsets.only(
                                                                   left: 160.0),
                                                           child: Icon(
                                                             Icons
@@ -274,7 +288,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                                               String>(
                                                             value: value,
                                                             child: SizedBox(
-                                                                width: 170,
+                                                                width: 130,
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
@@ -291,7 +305,81 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     ),
                                                   ),
                                                   const SizedBox(
-                                                    height: 100,
+                                                    height: 30,
+                                                  ),
+                                                  Visibility(
+                                                    visible: (dropdownValue ==
+                                                        'Assign'),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            // height: 50,
+                                                            width: 250,
+                                                            child: Column(
+                                                              children: [
+                                                                defaultTextFormField(
+                                                                  controller:
+                                                                      _workOrderController,
+                                                                  type:
+                                                                      TextInputType
+                                                                          .text,
+                                                                  hint:
+                                                                      "Work Order...",
+                                                                  // prefix: Icons.qr_code_rounded,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          SizedBox(
+                                                            // height: 50,
+                                                            width: 250,
+                                                            child: Column(
+                                                              children: [
+                                                                defaultTextFormField(
+                                                                  controller:
+                                                                      _jobNameController,
+                                                                  type:
+                                                                      TextInputType
+                                                                          .text,
+                                                                  hint:
+                                                                      "Job Name...",
+                                                                  // prefix: Icons.qr_code_rounded,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                    visible: (dropdownValue ==
+                                                        'Lend'),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: SizedBox(
+                                                        width: 250,
+                                                        child:
+                                                            defaultTextFormField(
+                                                          controller:
+                                                              _companyController,
+                                                          type: TextInputType
+                                                              .text,
+                                                          hint: "Company...",
+                                                          // prefix: Icons.qr_code_rounded,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 50,
                                                   ),
                                                   Padding(
                                                     padding:
@@ -306,7 +394,9 @@ class _ItemScreenState extends State<ItemScreen> {
                                                               fontSize: 20,
                                                             ),
                                                           ),
-                                                          onPressed: () {}),
+                                                          onPressed: () {
+                                                            setState(() {});
+                                                          }),
                                                     ),
                                                   )
                                                 ],
@@ -323,7 +413,115 @@ class _ItemScreenState extends State<ItemScreen> {
                                 borderRadius: BorderRadius.circular(8)),
                             padding: (const EdgeInsets.all(21)),
                             color: const Color.fromRGBO(227, 150, 0, 0.7),
-                            onPressed: () {},
+                            onPressed: () {
+                              {
+                                /* TODO :
+                                implement the BottomSheet that is in design
+                                more details:
+                                for check out
+                                  1-when user choses to lend the item
+                                  display text form felid to inter company name mandatory
+                                  2-if user choses to assign it to a job
+                                  display tff to inter work order mandatory and optional to input jop name
+                                  if user choses book it for a job
+                                  3-  display tff to inter work order mandatory*/
+                                scaffoldKey.currentState!.showBottomSheet(
+                                        (context) => StatefulBuilder(builder:
+                                        (BuildContext context,
+                                        StateSetter setState) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey
+                                                  .withOpacity(0.4),
+                                              spreadRadius: 5,
+                                              blurRadius: 10,
+                                              offset: const Offset(0, 3),
+                                            ),
+                                          ],
+                                          borderRadius:
+                                          const BorderRadius.only(
+                                            topLeft: Radius.circular(40.0),
+                                            topRight: Radius.circular(40.0),
+                                          ),
+                                        ),
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets.all(
+                                                    8.0),
+                                                child: Container(
+                                                    height: 3,
+                                                    width: 90,
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      color: Colors.grey,
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(50),
+                                                    )),
+                                              ),
+                                              const Text(
+                                                "Book",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                              SizedBox(height: 50,),
+                                              Align(
+                                                alignment:
+                                                Alignment.center,
+                                                child: SizedBox(
+                                                  // height: 50,
+                                                  width: 250,
+                                                  child: defaultTextFormField(
+                                                    controller:
+                                                    _workOrderController,
+                                                    type:
+                                                    TextInputType
+                                                        .text,
+                                                    hint:
+                                                    "Work Order...",
+                                                    // prefix: Icons.qr_code_rounded,
+                                                  ),
+                                                ),
+                                              ),
+
+                                              const SizedBox(
+                                                height: 50,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets.all(
+                                                    20.0),
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: DefaultButton(
+                                                      child: const Text(
+                                                        "Complete",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        setState(() {});
+                                                      }),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }));
+                              }
+                            },
                             child: const Icon(
                               IconBroken.bookmark,
                               color: Colors.white,
