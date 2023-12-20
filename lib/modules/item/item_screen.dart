@@ -160,12 +160,12 @@ class _ItemScreenState extends State<ItemScreen> {
                                   if user choses book it for a job
                                   3-  display tff to inter work order mandatory*/
                                 scaffoldKey.currentState!.showBottomSheet(
-                                  (context) => Container(
+                                  (context) => StatefulBuilder(builder: (BuildContext context, StateSetter setState){return  Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: Colors.grey.withOpacity(0.4),
                                           spreadRadius: 5,
                                           blurRadius: 10,
                                           offset: Offset(0, 3),
@@ -185,11 +185,11 @@ class _ItemScreenState extends State<ItemScreen> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Container(
                                                 height: 3,
-                                                width: 50,
+                                                width: 90,
                                                 decoration: BoxDecoration(
                                                   color: Colors.grey,
                                                   borderRadius:
-                                                      BorderRadius.circular(50),
+                                                  BorderRadius.circular(50),
                                                 )),
                                           ),
                                           const Text(
@@ -198,53 +198,69 @@ class _ItemScreenState extends State<ItemScreen> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20),
                                           ),
-                                          DropdownButton<String>(
-                                            value: dropdownValue,
-                                            icon: const Icon(
-                                                Icons.arrow_drop_down),
-                                            iconSize: 24,
-                                            elevation: 16,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                            onChanged: (String? newValue) {
-                                              setState(() {
-                                                dropdownValue = newValue;
-                                              });
-                                            },
-                                            items: <String>[
-                                              'Assign',
-                                              'Lend',
-                                            ].map<DropdownMenuItem<String>>(
-                                                (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
+                                          Container(
+                                            width: 200,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.07),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 10,
+                                                  offset: Offset(0, 3),
+                                                ),
+                                              ],
+                                              borderRadius:
+                                              BorderRadius.circular(5),
+                                            ),
+                                            child: DropdownButton<String>(
+                                              value: dropdownValue,
+                                              icon: const Icon(
+                                                  Icons.arrow_drop_down),
+                                              iconSize: 24,
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  dropdownValue = newValue;
+                                                });
+                                              },
+                                              items: <String>[
+                                                'Assign',
+                                                'Lend',
+                                              ].map<DropdownMenuItem<String>>(
+                                                      (String value) {
+                                                    return DropdownMenuItem<String>(
+                                                      value: value,
+                                                      child: Text(value),
+                                                    );
+                                                  }).toList(),
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 200,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(20.0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              child: DefaultButton(
-                                                  child: const Text(
-                                                    "Complete",
-                                                    style: TextStyle(
-                                                      fontSize: 20,
+                                            child: Expanded(
+                                              child: Container(width: double.infinity,
+                                                child: DefaultButton(
+                                                    child: const Text(
+                                                      "Complete",
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  onPressed: () {}),
+                                                    onPressed: () {}),
+                                              ),
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
-                                  ),
+                                  );})
                                 );
                               },
                             ),
