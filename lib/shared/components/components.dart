@@ -23,9 +23,11 @@ Widget defaultTextFormField({
   IconData? prefix,
   IconData? suffix,
   VoidCallback? suffixPressed,
+  void Function()? onTap,
   void Function(String)? onFieldSubmitted,
 }) {
   return TextFormField(
+    onTap: onTap,
     decoration: InputDecoration(
       prefixIconColor: Colors.grey.shade500,
       suffixIconColor: Colors.grey.shade500,
@@ -66,6 +68,59 @@ Widget defaultTextFormField({
     autofocus: autofocus,
     cursorColor: primaryColor,
   );
+}
+
+class DefaultButtonDropDownField extends StatelessWidget {
+  final void Function(String?)? onChanged_;
+  final String hint;
+  final String? value;
+
+  final List<String> items;
+  const DefaultButtonDropDownField(
+      {super.key,
+      this.onChanged_,
+      required this.hint,
+      required this.value,
+      required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField(
+      validator: (value) => value == null ? 'Enter your $hint' : null,
+      onChanged: onChanged_,
+      decoration: InputDecoration(
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        hintText: hint,
+        hintStyle: TextStyle(
+          color: Colors.grey[500],
+          fontWeight: FontWeight.normal,
+        ),
+        prefixIcon: const Icon(Icons.assignment_ind_outlined),
+        prefixIconColor: Colors.grey.shade500,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.grey.shade400,
+          ),
+        ),
+        fillColor: Colors.grey.shade200,
+        filled: true,
+      ),
+      value: value,
+      items: items.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: const TextStyle(color: Colors.black),
+          ),
+        );
+      }).toList(),
+      isExpanded: true,
+      dropdownColor: Colors.grey.shade200,
+    );
+  }
 }
 
 class DefaultButton extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:warehouse_app/modules/item/cubit/cubit.dart';
 import 'package:warehouse_app/modules/item/cubit/states.dart';
 import 'package:warehouse_app/modules/item/navbar_item.dart';
@@ -7,7 +8,21 @@ import 'package:warehouse_app/shared/components/components.dart';
 import 'package:warehouse_app/styles/icon_broken.dart';
 
 class ItemScreen extends StatefulWidget {
-  const ItemScreen({super.key});
+  final String name;
+  final String statue;
+  final String image;
+  final String details;
+  final String sheet;
+  final int id;
+
+  const ItemScreen(
+      {super.key,
+      required this.name,
+      required this.statue,
+      required this.image,
+      required this.details,
+      required this.sheet,
+      required this.id});
 
   @override
   State<ItemScreen> createState() => _ItemScreenState();
@@ -15,7 +30,8 @@ class ItemScreen extends StatefulWidget {
 
 class _ItemScreenState extends State<ItemScreen> {
   final TextEditingController _companyController = TextEditingController();
-  final TextEditingController _workOrderController = TextEditingController();
+  final TextEditingController _estimatedCheckoutDateController =
+      TextEditingController();
   final TextEditingController _jobNameController = TextEditingController();
 
   String? dropdownValue = 'Assign';
@@ -24,7 +40,14 @@ class _ItemScreenState extends State<ItemScreen> {
     return BlocProvider(
       create: (context) => ItemCubit(),
       child: BlocConsumer<ItemCubit, ItemStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is ItemCheckoutSuccessState) {
+            toast(
+                context: context,
+                message: state.message,
+                state: ToastState.success);
+          }
+        },
         builder: (context, state) {
           final GlobalKey<ScaffoldState> scaffoldKey =
               GlobalKey<ScaffoldState>();
@@ -40,7 +63,7 @@ class _ItemScreenState extends State<ItemScreen> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "Megger MIT510\n",
+                      text: widget.name,
                       style: Theme.of(context)
                           .appBarTheme
                           .titleTextStyle!
@@ -49,17 +72,17 @@ class _ItemScreenState extends State<ItemScreen> {
                             // height: .2,
                           ),
                     ),
-                    TextSpan(
-                      text: "code:HIRMEGMIT510",
-                      style: Theme.of(context)
-                          .appBarTheme
-                          .titleTextStyle!
-                          .copyWith(
-                            color: Colors.grey,
-                            fontSize: 14,
-                            height: 1,
-                          ),
-                    ),
+                    // TextSpan(
+                    //   text: "code:HIRMEGMIT510",
+                    //   style: Theme.of(context)
+                    //       .appBarTheme
+                    //       .titleTextStyle!
+                    //       .copyWith(
+                    //         color: Colors.grey,
+                    //         fontSize: 14,
+                    //         height: 1,
+                    //       ),
+                    // ),
                   ],
                 ),
               ),
@@ -76,12 +99,10 @@ class _ItemScreenState extends State<ItemScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       height: 200,
                       width: double.infinity,
-                      child: Image(
-                          image: NetworkImage(
-                              "https://media.megger.com/mediacontainer/medialibraries/meggerglobal/product-images/mit510-2/image_1-small-auto-sized.jpg")),
+                      child: Image(image: NetworkImage(widget.image)),
                     ),
                     Row(
                       children: [
@@ -101,7 +122,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                     .copyWith(color: Colors.black),
                               ),
                               TextSpan(
-                                text: 'available',
+                                text: widget.statue,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
@@ -119,7 +140,7 @@ class _ItemScreenState extends State<ItemScreen> {
                           index: 0,
                           currentNavIndex: cubit.currentNavIndex,
                           onTap: cubit.changBottomNavIndex,
-                          title: "Sheets",
+                          title: "Sheet",
                         ),
                         NavBarItem(
                           index: 1,
@@ -127,17 +148,19 @@ class _ItemScreenState extends State<ItemScreen> {
                           onTap: cubit.changBottomNavIndex,
                           title: "Details",
                         ),
-                        NavBarItem(
-                          index: 2,
-                          currentNavIndex: cubit.currentNavIndex,
-                          onTap: cubit.changBottomNavIndex,
-                          title: "Comment",
-                        ),
+                        // NavBarItem(
+                        //   index: 2,
+                        //   currentNavIndex: cubit.currentNavIndex,
+                        //   onTap: cubit.changBottomNavIndex,
+                        //   title: "Comment",
+                        // ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Placeholder(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(cubit.currentNavIndex == 0
+                          ? widget.sheet
+                          : widget.details),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -151,86 +174,79 @@ class _ItemScreenState extends State<ItemScreen> {
                                   fontSize: 20,
                                 ),
                               ),
-                              onPressed: () {
-                                /* TODO :
-                                implement the BottomSheet that is in design
-                                more details:
-                                for check out
-                                  1-when user choses to lend the item
-                                  display text form felid to inter company name mandatory
-                                  2-if user choses to assign it to a job
-                                  display tff to inter work order mandatory and optional to input jop name
-                                  if user choses book it for a job
-                                  3-  display tff to inter work order mandatory*/
-                                scaffoldKey.currentState!.showBottomSheet(
-                                    (context) => StatefulBuilder(builder:
-                                            (BuildContext context,
-                                                StateSetter setState) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.4),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 10,
-                                                  offset: const Offset(0, 3),
-                                                ),
-                                              ],
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(40.0),
-                                                topRight: Radius.circular(40.0),
+                              onPressed: () => scaffoldKey.currentState!
+                                  .showBottomSheet((context) => StatefulBuilder(
+                                          builder: (BuildContext context,
+                                              StateSetter setState) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.4),
+                                                spreadRadius: 5,
+                                                blurRadius: 10,
+                                                offset: const Offset(0, 3),
                                               ),
+                                            ],
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(40.0),
+                                              topRight: Radius.circular(40.0),
                                             ),
-                                            child: SizedBox(
-                                              width: double.infinity,
+                                          ),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: SingleChildScrollView(
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.all(
-                                                            8.0),
+                                                      8.0,
+                                                    ),
                                                     child: Container(
-                                                        height: 3,
-                                                        width: 90,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.grey,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(50),
-                                                        )),
+                                                      height: 3,
+                                                      width: 90,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                      ),
+                                                    ),
                                                   ),
                                                   const Text(
                                                     "Check out",
                                                     style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  ),
+                                                  const SizedBox(height: 20),
                                                   const Padding(
                                                     padding: EdgeInsets.only(
-                                                        left: 15.0),
+                                                      left: 15.0,
+                                                    ),
                                                     child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Text(
-                                                          "choose:",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey),
-                                                        )),
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        "choose:",
+                                                        style: TextStyle(
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets
                                                         .symmetric(
-                                                        horizontal: 15.0),
+                                                      horizontal: 15.0,
+                                                    ),
                                                     child: Container(
                                                       width: double.infinity,
                                                       decoration: BoxDecoration(
@@ -239,12 +255,15 @@ class _ItemScreenState extends State<ItemScreen> {
                                                           BoxShadow(
                                                             color: Colors.grey
                                                                 .withOpacity(
-                                                                    0.08),
+                                                              0.08,
+                                                            ),
                                                             spreadRadius: 7,
                                                             blurRadius: 10,
                                                             offset:
                                                                 const Offset(
-                                                                    0, 3),
+                                                              0,
+                                                              3,
+                                                            ),
                                                           ),
                                                         ],
                                                         borderRadius:
@@ -258,7 +277,8 @@ class _ItemScreenState extends State<ItemScreen> {
                                                         icon: const Padding(
                                                           padding:
                                                               EdgeInsets.only(
-                                                                  left: 160.0),
+                                                            left: 160.0,
+                                                          ),
                                                           child: Icon(
                                                             Icons
                                                                 .keyboard_arrow_down_rounded,
@@ -272,41 +292,43 @@ class _ItemScreenState extends State<ItemScreen> {
                                                         ),
                                                         onChanged:
                                                             (String? newValue) {
-                                                          setState(() {
-                                                            dropdownValue =
-                                                                newValue;
-                                                          });
+                                                          setState(
+                                                            () {
+                                                              dropdownValue =
+                                                                  newValue;
+                                                            },
+                                                          );
                                                         },
                                                         items: <String>[
                                                           'Assign',
                                                           'Lend',
                                                         ].map<
                                                             DropdownMenuItem<
-                                                                String>>((String
-                                                            value) {
-                                                          return DropdownMenuItem<
-                                                              String>(
-                                                            value: value,
-                                                            child: SizedBox(
+                                                                String>>(
+                                                          (String value) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              value: value,
+                                                              child: SizedBox(
                                                                 width: 130,
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
                                                                           .only(
-                                                                          left:
-                                                                              8.0),
+                                                                    left: 8.0,
+                                                                  ),
                                                                   child: Text(
                                                                     value,
                                                                   ),
-                                                                )),
-                                                          );
-                                                        }).toList(),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ).toList(),
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 30,
-                                                  ),
+                                                  const SizedBox(height: 30),
                                                   Visibility(
                                                     visible: (dropdownValue ==
                                                         'Assign'),
@@ -321,21 +343,43 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             child: Column(
                                                               children: [
                                                                 defaultTextFormField(
+                                                                  onTap:
+                                                                      () async {
+                                                                    try {
+                                                                      var date =
+                                                                          await showDatePicker(
+                                                                        context:
+                                                                            context,
+                                                                        initialDate:
+                                                                            DateTime.now(),
+                                                                        firstDate:
+                                                                            DateTime.now(),
+                                                                        lastDate:
+                                                                            DateTime.parse('2024-12-31'),
+                                                                      );
+                                                                      _estimatedCheckoutDateController
+                                                                          .text = DateFormat
+                                                                              .yMMMd()
+                                                                          .format(
+                                                                              date!);
+                                                                    } catch (error) {
+                                                                      _estimatedCheckoutDateController
+                                                                          .text = "";
+                                                                    }
+                                                                  },
                                                                   controller:
-                                                                      _workOrderController,
-                                                                  type:
-                                                                      TextInputType
-                                                                          .text,
+                                                                      _estimatedCheckoutDateController,
+                                                                  type: TextInputType
+                                                                      .datetime,
                                                                   hint:
-                                                                      "Work Order...",
+                                                                      "estimated Checkout Date",
                                                                   // prefix: Icons.qr_code_rounded,
                                                                 ),
                                                               ],
                                                             ),
                                                           ),
-                                                          SizedBox(
-                                                            height: 15,
-                                                          ),
+                                                          const SizedBox(
+                                                              height: 15),
                                                           SizedBox(
                                                             // height: 50,
                                                             width: 250,
@@ -395,16 +439,29 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             ),
                                                           ),
                                                           onPressed: () {
-                                                            setState(() {});
+                                                            cubit
+                                                                .createCheckOut(
+                                                              itemId: widget.id,
+                                                              employeeId: 1,
+                                                              estimatedCheckInDate:
+                                                                  _estimatedCheckoutDateController
+                                                                      .text,
+                                                              jobAssigned:
+                                                                  _jobNameController
+                                                                      .text,
+                                                              companyLended:
+                                                                  _companyController
+                                                                      .text,
+                                                            );
                                                           }),
                                                     ),
                                                   )
                                                 ],
                                               ),
                                             ),
-                                          );
-                                        }));
-                              },
+                                          ),
+                                        );
+                                      })),
                             ),
                           ),
                           const SizedBox(width: 5),
@@ -416,99 +473,129 @@ class _ItemScreenState extends State<ItemScreen> {
                             onPressed: () {
                               {
                                 scaffoldKey.currentState!.showBottomSheet(
-                                    (context) => StatefulBuilder(builder:
-                                            (BuildContext context,
-                                                StateSetter setState) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.4),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 10,
-                                                  offset: const Offset(0, 3),
-                                                ),
-                                              ],
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(40.0),
-                                                topRight: Radius.circular(40.0),
-                                              ),
+                                  (context) => StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.4),
+                                              spreadRadius: 5,
+                                              blurRadius: 10,
+                                              offset: const Offset(0, 3),
                                             ),
-                                            child: SizedBox(
-                                              width: double.infinity,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Container(
-                                                        height: 3,
-                                                        width: 90,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.grey,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(50),
-                                                        )),
+                                          ],
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(40.0),
+                                            topRight: Radius.circular(40.0),
+                                          ),
+                                        ),
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                    height: 3,
+                                                    width: 90,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                    )),
+                                              ),
+                                              const Text(
+                                                "Book",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                              const SizedBox(height: 50),
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: SizedBox(
+                                                  // height: 50,
+                                                  width: 250,
+                                                  child: defaultTextFormField(
+                                                    onTap: () async {
+                                                      try {
+                                                        var date =
+                                                            await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime.now(),
+                                                          lastDate:
+                                                              DateTime.parse(
+                                                                  '2024-12-31'),
+                                                        );
+                                                        _estimatedCheckoutDateController
+                                                            .text = DateFormat(
+                                                                'yyyy-MM-dd')
+                                                            .format(date!);
+                                                      } catch (error) {
+                                                        _estimatedCheckoutDateController
+                                                            .text = "";
+                                                      }
+                                                    },
+                                                    controller:
+                                                        _estimatedCheckoutDateController,
+                                                    type:
+                                                        TextInputType.datetime,
+                                                    hint:
+                                                        "estimated Checkout Date",
+                                                    // prefix: Icons.qr_code_rounded,
                                                   ),
-                                                  const Text(
-                                                    "Book",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 50,
-                                                  ),
-                                                  Align(
-                                                    alignment: Alignment.center,
-                                                    child: SizedBox(
-                                                      // height: 50,
-                                                      width: 250,
-                                                      child:
-                                                          defaultTextFormField(
-                                                        controller:
-                                                            _workOrderController,
-                                                        type:
-                                                            TextInputType.text,
-                                                        hint: "Work Order...",
-                                                        // prefix: Icons.qr_code_rounded,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 50,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(20.0),
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: DefaultButton(
+                                                    child: const Text(
+                                                      "Complete",
+                                                      style: TextStyle(
+                                                        fontSize: 20,
                                                       ),
                                                     ),
+                                                    onPressed: () {
+                                                      cubit.createCheckOut(
+                                                        itemId: widget.id,
+                                                        employeeId: 1,
+                                                        estimatedCheckInDate:
+                                                            _estimatedCheckoutDateController
+                                                                .text,
+                                                        jobAssigned:
+                                                            _jobNameController
+                                                                .text,
+                                                        companyLended:
+                                                            _companyController
+                                                                .text,
+                                                      );
+                                                    },
                                                   ),
-                                                  const SizedBox(
-                                                    height: 50,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20.0),
-                                                    child: SizedBox(
-                                                      width: double.infinity,
-                                                      child: DefaultButton(
-                                                          child: const Text(
-                                                            "Complete",
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            setState(() {});
-                                                          }),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        }));
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
                               }
                             },
                             child: const Icon(

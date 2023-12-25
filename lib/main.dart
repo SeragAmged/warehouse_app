@@ -2,8 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:warehouse_app/layout/app_layout.dart';
 import 'package:warehouse_app/layout/cubit/cubit.dart';
 import 'package:warehouse_app/modules/login/login_screen.dart';
+import 'package:warehouse_app/modules/qr/cubit/cubit.dart';
+import 'package:warehouse_app/modules/register/register_screen.dart';
 import 'bloc_observer.dart';
 import 'shared/components/variables.dart';
 import 'shared/network/local/cache_helper.dart';
@@ -47,7 +50,10 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AppCubit())],
+      providers: [
+        BlocProvider(create: (context) => AppCubit()..getItems()),
+        BlocProvider(create: (context) => ItemByIdCubit()),
+      ],
       child: MaterialApp(
         title: 'Social app',
         debugShowCheckedModeBanner: false,

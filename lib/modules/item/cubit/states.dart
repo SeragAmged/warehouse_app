@@ -1,5 +1,17 @@
 sealed class ItemStates {}
 
-class AppInitialState extends ItemStates {}
+class ItemInitialState extends ItemStates {}
 
-class AppChangeNavState extends ItemStates {}
+class ItemChangeNavState extends ItemStates {}
+
+class ItemCheckoutLoadingState extends ItemStates {}
+
+class ItemCheckoutSuccessState extends ItemStates {
+  final String message;
+  ItemCheckoutSuccessState({required this.message});
+}
+
+class ItemCheckoutErrorState extends ItemStates {
+  final String message;
+  ItemCheckoutErrorState({required this.message});
+}
