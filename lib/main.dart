@@ -7,6 +7,7 @@ import 'package:warehouse_app/layout/cubit/cubit.dart';
 import 'package:warehouse_app/modules/login/login_screen.dart';
 import 'package:warehouse_app/modules/qr/cubit/cubit.dart';
 import 'package:warehouse_app/modules/register/register_screen.dart';
+import 'package:warehouse_app/modules/settings/settings_screen.dart';
 import 'bloc_observer.dart';
 import 'shared/components/variables.dart';
 import 'shared/network/local/cache_helper.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
         theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: ThemeMode.light,
-        home: LoginScreen(),
+        home: AppLayout(),
       ),
     );
   }

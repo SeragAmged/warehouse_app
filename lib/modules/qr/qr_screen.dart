@@ -11,13 +11,6 @@ import 'package:warehouse_app/shared/network/remote/end_points.dart';
 
 import '../../shared/components/components.dart';
 
-// class QrScreen extends StatefulWidget {
-//   const QrScreen({super.key});
-
-//   @override
-//   State<QrScreen> createState() => _QrScreenState();
-// }
-
 class QrScreen extends StatelessWidget {
   final TextEditingController _codeController = TextEditingController();
 
@@ -43,7 +36,7 @@ class QrScreen extends StatelessWidget {
             ItemScreen(
               name: itemModel?.tool?.toolName ?? " hamo",
               statue: itemModel?.status ?? "available",
-              image: 
+              image:
                   "https://media.megger.com/mediacontainer/medialibraries/meggerglobal/product-images/mit510-2/image_1-small-auto-sized.jpg",
               details: itemModel?.tool?.details ?? "no details available",
               sheet: itemModel?.tool?.dataSheetPdfLink ?? "no pdf link",

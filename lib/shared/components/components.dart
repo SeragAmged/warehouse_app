@@ -97,6 +97,7 @@ class DefaultButtonDropDownField extends StatelessWidget {
           color: Colors.grey[500],
           fontWeight: FontWeight.normal,
         ),
+        /* TODO: extract icon */
         prefixIcon: const Icon(Icons.assignment_ind_outlined),
         prefixIconColor: Colors.grey.shade500,
         focusedBorder: OutlineInputBorder(

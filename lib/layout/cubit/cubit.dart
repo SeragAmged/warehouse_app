@@ -31,7 +31,7 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-  final List<Widget> screens =  [
+  final List<Widget> screens = [
     QrScreen(),
     ItemsScreen(),
     MyItemsScreen(),
@@ -75,5 +75,4 @@ class AppCubit extends Cubit<AppStates> {
 }
 
  */
-  
 }
