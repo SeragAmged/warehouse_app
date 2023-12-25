@@ -100,64 +100,14 @@ class RegisterScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 25),
-                          // defaultTextFormField(
-                          //   controller: _branchController,
-                          //   type: TextInputType.text,
-                          //   hint: "Branch name",
-                          //   prefix: Icons.assignment_ind_outlined,
-                          // ),
                           DefaultButtonDropDownField(
                             hint: "Branch name",
                             items: cubit.branches,
                             value: _branchController,
-                            onChanged_:  (String? value) {
-                              // This is called when the user selects an item.
+                            onChanged_: (String? value) {
                               _branchController = value!;
-                              cubit.selectBranch();
                             },
                           ),
-                          // DropdownButtonFormField(
-                          //   validator: (value) =>
-                          //       value == null ? 'field required' : null,
-                          //   onChanged: (String? value) {
-                          //     // This is called when the user selects an item.
-                          //     _branchController = value!;
-                          //     cubit.selectBranch();
-                          //   },
-                          //   alignment: Alignment.bottomCenter,
-                          //   decoration: InputDecoration(
-                          //     enabledBorder: const OutlineInputBorder(
-                          //       borderSide: BorderSide(color: Colors.white),
-                          //     ),
-                          //     hintText: "Branch name",
-                          //     hintStyle: TextStyle(
-                          //       color: Colors.grey[500],
-                          //     ),
-                          //     prefixIcon: Icon(Icons.assignment_ind_outlined),
-                          //     prefixIconColor: Colors.grey.shade500,
-                          //     focusedBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: Colors.grey.shade400,
-                          //       ),
-                          //     ),
-                          //     fillColor: Colors.grey.shade200,
-                          //     filled: true,
-                          //   ),
-                          //   value: _branchController,
-                          //   items: cubit.branches
-                          //       .map<DropdownMenuItem<String>>((String value) {
-                          //     return DropdownMenuItem<String>(
-                          //       value: value,
-                          //       child: Text(
-                          //         value,
-                          //         style: const TextStyle(color: Colors.black),
-                          //       ),
-                          //     );
-                          //   }).toList(),
-                          //   isExpanded: true,
-                          //   dropdownColor: Colors.grey.shade200,
-                          // ),
-
                           const SizedBox(height: 10),
                           defaultTextFormField(
                             controller: _nameController,

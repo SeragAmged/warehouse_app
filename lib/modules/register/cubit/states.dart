@@ -4,7 +4,6 @@ class RegisterInitialState extends RegisterStates {}
 
 class RegisterViabilityChangeState extends RegisterStates {}
 
-class SelectBranch extends RegisterStates {}
 
 class RegisterLoadingState extends RegisterStates {}
 

@@ -19,10 +19,6 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   List<String> branches = ["Branch A", "Branch B", "Branch C", "Branch D"];
 
-  void selectBranch() {
-    emit(SelectBranch());
-  }
-
 /*
 
 {

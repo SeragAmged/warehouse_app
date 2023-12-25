@@ -16,20 +16,20 @@ class ItemsScreen extends StatelessWidget {
         AppCubit cubit = AppCubit.get(context);
 
         return ConditionalBuilder(
-          condition: State is AppGetDataLoadingState,
+          condition: false /* State is AppGetDataLoadingState */,
           builder: (context) =>
               const Center(child: CircularProgressIndicator()),
           fallback: (context) => ListView.builder(
             physics: const BouncingScrollPhysics(),
-            itemCount: cubit.itemModel!.length,
-            itemBuilder: (context, index) => ItemWidget(
-              id: cubit.itemModel![index].itemId!,
+            itemCount: 10 /* cubit.itemModel!.length */,
+            itemBuilder: (context, index) => const ItemWidget(
+              id: 1 /* cubit.itemModel![index].itemId! */,
               image:
                   "https://media.megger.com/mediacontainer/medialibraries/meggerglobal/product-images/mit510-2/image_1-small-auto-sized.jpg",
-              name: cubit.itemModel![index].tool!.toolName!,
-              statue: cubit.itemModel![index].status ?? "null",
-              detail: cubit.itemModel![index].tool!.details ?? "null",
-              sheet: cubit.itemModel![index].status ?? "null",
+              name: "name"/*  cubit.itemModel![index].tool!.toolName! */,
+              statue: "statues"/* cubit.itemModel![index].status ?? "null" */,
+              detail: "detaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiilsdetaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiilsdetaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiils"/* cubit.itemModel![index].tool!.details ?? "null" */,
+              sheet: "PDF.com"/* cubit.itemModel![index].status ?? "null" */,
             ),
           ),
         );

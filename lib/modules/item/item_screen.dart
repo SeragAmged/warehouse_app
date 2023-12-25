@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:warehouse_app/modules/done/done_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:warehouse_app/modules/item/cubit/cubit.dart';
 import 'package:warehouse_app/modules/item/cubit/states.dart';
 import 'package:warehouse_app/modules/item/navbar_item.dart';
 import 'package:warehouse_app/shared/components/components.dart';
-import 'package:warehouse_app/shared/components/functions.dart';
 import 'package:warehouse_app/styles/icon_broken.dart';
 
 class ItemScreen extends StatefulWidget {
@@ -32,7 +30,7 @@ class ItemScreen extends StatefulWidget {
 
 class _ItemScreenState extends State<ItemScreen> {
   final TextEditingController _companyController = TextEditingController();
-  final TextEditingController _estimatedCheckoutDateController =
+  final TextEditingController _estimatedCheck00outDateController =
       TextEditingController();
   final TextEditingController _jobNameController = TextEditingController();
 
@@ -71,20 +69,8 @@ class _ItemScreenState extends State<ItemScreen> {
                           .titleTextStyle!
                           .copyWith(
                             color: Colors.black,
-                            // height: .2,
                           ),
                     ),
-                    // TextSpan(
-                    //   text: "code:HIRMEGMIT510",
-                    //   style: Theme.of(context)
-                    //       .appBarTheme
-                    //       .titleTextStyle!
-                    //       .copyWith(
-                    //         color: Colors.grey,
-                    //         fontSize: 14,
-                    //         height: 1,
-                    //       ),
-                    // ),
                   ],
                 ),
               ),
@@ -150,19 +136,27 @@ class _ItemScreenState extends State<ItemScreen> {
                           onTap: cubit.changBottomNavIndex,
                           title: "Details",
                         ),
-                        // NavBarItem(
-                        //   index: 2,
-                        //   currentNavIndex: cubit.currentNavIndex,
-                        //   onTap: cubit.changBottomNavIndex,
-                        //   title: "Comment",
-                        // ),
+                        //TODO: Handle comments section
+                        /* 
+                          wrap coments with inkwell to open user page
+                          
+                         */
+                        NavBarItem(
+                          index: 2,
+                          currentNavIndex: cubit.currentNavIndex,
+                          onTap: cubit.changBottomNavIndex,
+                          title: "Comment",
+                        ),
                       ],
                     ),
+                    //Comments screen
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(cubit.currentNavIndex == 0
                           ? widget.sheet
-                          : widget.details),
+                          : cubit.currentNavIndex == 1
+                              ? widget.details
+                              : widget.details),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -176,6 +170,15 @@ class _ItemScreenState extends State<ItemScreen> {
                                   fontSize: 20,
                                 ),
                               ),
+                              //TODO:
+                              /*
+                              book 2 fields date 
+                              work order
+                              disable date 
+                              chick out
+                              ظبط بس الحاجات و المحتاجات
+
+                               */
                               onPressed: () => scaffoldKey.currentState!
                                   .showBottomSheet((context) => StatefulBuilder(
                                           builder: (BuildContext context,
@@ -292,6 +295,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                                           color: Colors.black,
                                                           fontSize: 15,
                                                         ),
+                                                        isExpanded: true,
                                                         onChanged:
                                                             (String? newValue) {
                                                           setState(
