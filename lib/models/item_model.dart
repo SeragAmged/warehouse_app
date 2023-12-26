@@ -7,6 +7,7 @@ class ItemModel {
   String? jobAssigned;
   Tool? tool;
 
+
   ItemModel.fromJson(Map<String, dynamic> json) {
     itemId = json['item_id'];
     status = json['status'];

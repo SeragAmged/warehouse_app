@@ -137,7 +137,7 @@ class _ItemScreenState extends State<ItemScreen> {
                           title: "Details",
                         ),
                         //TODO: Handle comments section
-                        /* 
+                        /*
                           wrap coments with inkwell to open user page
 
                          */
@@ -150,14 +150,16 @@ class _ItemScreenState extends State<ItemScreen> {
                       ],
                     ),
                     //Comments screen
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text(cubit.currentNavIndex == 0
-                          ? widget.sheet
-                          : cubit.currentNavIndex == 1
-                              ? widget.details
-                              : widget.details),
-                    ),
+                    if(cubit.currentNavIndex == 0)
+                      Padding(padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(widget.sheet),)
+                    else if (cubit.currentNavIndex == 1)
+                      Padding(padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(widget.details),)
+                    else if (cubit.currentNavIndex == 2)
+                        Padding(padding: const EdgeInsets.symmetric(vertical: 10),
+                          //TODO: add list comments
+                          child: Text("commenst"),),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -172,9 +174,9 @@ class _ItemScreenState extends State<ItemScreen> {
                               ),
                               //TODO:
                               /*
-                              book 2 fields date 
+                              book 2 fields date
                               work order
-                              disable date 
+                              disable date
                               chick out
                               ظبط بس الحاجات و المحتاجات
 
