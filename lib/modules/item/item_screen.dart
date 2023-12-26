@@ -1,14 +1,16 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:warehouse_app/modules/item/comment_items.dart';
 import 'package:warehouse_app/modules/item/cubit/cubit.dart';
 import 'package:warehouse_app/modules/item/cubit/states.dart';
 import 'package:warehouse_app/modules/item/navbar_item.dart';
 import 'package:warehouse_app/shared/components/components.dart';
 import 'package:warehouse_app/styles/icon_broken.dart';
 
+import '../../models/comment_model.dart';
 import 'comment_form.dart';
-
 
 class ItemScreen extends StatefulWidget {
   final String name;
@@ -45,15 +47,13 @@ class _ItemScreenState extends State<ItemScreen> {
   final FocusNode _commentFocus = FocusNode();
   late FocusAttachment _focusAttachment;
 
-
   @override
   void initState() {
     super.initState();
     _focusAttachment = _commentFocus.attach(context);
     // Add a listener to the focus node
     _commentFocus.addListener(() {
-      _commentBuilderKey.currentState?.setState(() {
-      });
+      _commentBuilderKey.currentState?.setState(() {});
     });
   }
 
@@ -200,26 +200,43 @@ class _ItemScreenState extends State<ItemScreen> {
                         child: Text(widget.details),
                       )
                     else if (cubit.currentNavIndex == 2)
-                      const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          //TODO: add list comments
-                          child: Column(
-                            children: [Text("username")],
-                          )),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        //TODO: add list comments and condition
+                        child: buildCommentItem(comments,context),
+
+                        /*ConditionalBuilder(
+                            condition: false,
+                            builder: (context) => ListView.separated(
+                                itemBuilder: (context, index) =>
+                                    buildCommentItem(context),
+                                separatorBuilder: (context, index) => Container(
+                                      height: 1,
+                                      color: Colors.grey,
+                                    ),
+                                itemCount: 1),
+                            fallback: (context) => const Center(
+                                    child: Text(
+                                  "no comments yet",
+                                  style: TextStyle(color: Colors.grey),
+                                ))),*/
+                      ),
                     if (cubit.currentNavIndex == 2)
                       Align(
                         alignment: Alignment.center,
                         child: Column(
                           children: [
                             SizedBox(
-                                height: 60,
-                                width: double.infinity,
-                                child: CommentField(
-                                  key: _commentBuilderKey,
-                                  commentController: _commentController,
-                                  commentFocus: _commentFocus,
-                                  submitComment: submitComment,),
-                            )],
+                              height: 60,
+                              width: double.infinity,
+                              child: CommentField(
+                                key: _commentBuilderKey,
+                                commentController: _commentController,
+                                commentFocus: _commentFocus,
+                                submitComment: submitComment,
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     Padding(
