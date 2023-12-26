@@ -56,6 +56,11 @@ class _CommentFieldState extends State<CommentField> {
           keyboardType: TextInputType.text,
           cursorColor: Colors.blue, // Change this to your desired cursor color
           focusNode: widget.commentFocus,
+          onEditingComplete: () {
+            widget.submitComment();
+            // Hide the keyboard
+            widget.commentFocus.unfocus();
+          },
         );
       },
     );

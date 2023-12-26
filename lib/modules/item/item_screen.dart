@@ -53,8 +53,7 @@ class _ItemScreenState extends State<ItemScreen> {
     // Add a listener to the focus node
     _commentFocus.addListener(() {
       _commentBuilderKey.currentState?.setState(() {
-        
-      });;
+      });
     });
   }
 
