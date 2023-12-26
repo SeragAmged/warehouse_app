@@ -7,6 +7,9 @@ import 'package:warehouse_app/modules/item/navbar_item.dart';
 import 'package:warehouse_app/shared/components/components.dart';
 import 'package:warehouse_app/styles/icon_broken.dart';
 
+import 'comment_form.dart';
+
+
 class ItemScreen extends StatefulWidget {
   final String name;
   final String statue;
@@ -29,11 +32,47 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
+  final GlobalKey _commentBuilderKey = GlobalKey();
   final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
   final TextEditingController _jobNameController = TextEditingController();
   final TextEditingController _workOrderController = TextEditingController();
-  final TextEditingController _estimatedCheckoutDateController = TextEditingController();
-  final TextEditingController _estimatedCheckinDateController = TextEditingController();
+  final TextEditingController _estimatedCheckoutDateController =
+      TextEditingController();
+  final TextEditingController _estimatedCheckinDateController =
+      TextEditingController();
+
+  final FocusNode _commentFocus = FocusNode();
+  late FocusAttachment _focusAttachment;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _focusAttachment = _commentFocus.attach(context);
+    // Add a listener to the focus node
+    _commentFocus.addListener(() {
+      _commentBuilderKey.currentState?.setState(() {
+        
+      });;
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusAttachment.detach();
+    _commentController.dispose();
+    _commentFocus.dispose();
+    super.dispose();
+  }
+
+  void submitComment() {
+    // Handle the comment submission logic here
+    _commentFocus.unfocus();
+    debugPrint('Comment submitted: ${_commentController.text}');
+    // Clear the comment field after submission
+    _commentController.clear();
+  }
 
   String? dropdownValue = 'Assign';
   @override
@@ -151,16 +190,39 @@ class _ItemScreenState extends State<ItemScreen> {
                       ],
                     ),
                     //Comments screen
-                    if(cubit.currentNavIndex == 0)
-                      Padding(padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text(widget.sheet),)
+                    if (cubit.currentNavIndex == 0)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(widget.sheet),
+                      )
                     else if (cubit.currentNavIndex == 1)
-                      Padding(padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text(widget.details),)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(widget.details),
+                      )
                     else if (cubit.currentNavIndex == 2)
-                        Padding(padding: const EdgeInsets.symmetric(vertical: 10),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
                           //TODO: add list comments
-                          child: Text("commenst"),),
+                          child: Column(
+                            children: [Text("username")],
+                          )),
+                    if (cubit.currentNavIndex == 2)
+                      Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                height: 60,
+                                width: double.infinity,
+                                child: CommentField(
+                                  key: _commentBuilderKey,
+                                  commentController: _commentController,
+                                  commentFocus: _commentFocus,
+                                  submitComment: submitComment,),
+                            )],
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -175,9 +237,6 @@ class _ItemScreenState extends State<ItemScreen> {
                               ),
                               //TODO:
                               /*
-                              book 2 fields date
-                              work order
-                              disable date
                               chick out
                               ظبط بس الحاجات و المحتاجات
 
@@ -346,38 +405,38 @@ class _ItemScreenState extends State<ItemScreen> {
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () async {
-                                                  try {
-                                                  var date =
-                                                  await showDatePicker(
-                                                  context:
-                                                  context,
-                                                  initialDate:
-                                                  DateTime
-                                                      .now(),
-                                                  firstDate:
-                                                  DateTime
-                                                      .now(),
-                                                  lastDate: DateTime
-                                                      .parse(
-                                                  '2024-12-31'),
-                                                  );
-                                                  _estimatedCheckoutDateController
-                                                      .text = DateFormat
-                                                      .yMMMd()
-                                                      .format(
-                                                  date!);
-                                                  } catch (error) {
-                                                  _estimatedCheckoutDateController
-                                                      .text = "";
-                                                  }
-                                                  },
-                                                              child: defaultTextFormField(
+                                                                try {
+                                                                  var date =
+                                                                      await showDatePicker(
+                                                                    context:
+                                                                        context,
+                                                                    initialDate:
+                                                                        DateTime
+                                                                            .now(),
+                                                                    firstDate:
+                                                                        DateTime
+                                                                            .now(),
+                                                                    lastDate: DateTime
+                                                                        .parse(
+                                                                            '2024-12-31'),
+                                                                  );
+                                                                  _estimatedCheckoutDateController
+                                                                      .text = DateFormat
+                                                                          .yMMMd()
+                                                                      .format(
+                                                                          date!);
+                                                                } catch (error) {
+                                                                  _estimatedCheckoutDateController
+                                                                      .text = "";
+                                                                }
+                                                              },
+                                                              child:
+                                                                  defaultTextFormField(
                                                                 enable: false,
                                                                 controller:
                                                                     _estimatedCheckoutDateController,
-                                                                type:
-                                                                    TextInputType
-                                                                        .datetime,
+                                                                type: TextInputType
+                                                                    .datetime,
                                                                 hint:
                                                                     "estimated Checkout Date",
                                                                 // prefix: Icons.qr_code_rounded,
@@ -534,19 +593,19 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     onTap: () async {
                                                       try {
                                                         var date =
-                                                        await showDatePicker(
+                                                            await showDatePicker(
                                                           context: context,
                                                           initialDate:
-                                                          DateTime.now(),
+                                                              DateTime.now(),
                                                           firstDate:
-                                                          DateTime.now(),
+                                                              DateTime.now(),
                                                           lastDate:
-                                                          DateTime.parse(
-                                                              '2024-12-31'),
+                                                              DateTime.parse(
+                                                                  '2024-12-31'),
                                                         );
                                                         _estimatedCheckoutDateController
                                                             .text = DateFormat(
-                                                            'yyyy-MM-dd')
+                                                                'yyyy-MM-dd')
                                                             .format(date!);
                                                       } catch (error) {
                                                         _estimatedCheckoutDateController
@@ -558,8 +617,8 @@ class _ItemScreenState extends State<ItemScreen> {
 
                                                       controller:
                                                           _estimatedCheckoutDateController,
-                                                      type:
-                                                          TextInputType.datetime,
+                                                      type: TextInputType
+                                                          .datetime,
                                                       hint:
                                                           "estimated CheckOut Date",
                                                       // prefix: Icons.qr_code_rounded,
@@ -567,7 +626,9 @@ class _ItemScreenState extends State<ItemScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 10,),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
                                               Align(
                                                 alignment: Alignment.center,
                                                 child: SizedBox(
@@ -577,19 +638,19 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     onTap: () async {
                                                       try {
                                                         var date =
-                                                        await showDatePicker(
+                                                            await showDatePicker(
                                                           context: context,
                                                           initialDate:
-                                                          DateTime.now(),
+                                                              DateTime.now(),
                                                           firstDate:
-                                                          DateTime.now(),
+                                                              DateTime.now(),
                                                           lastDate:
-                                                          DateTime.parse(
-                                                              '2024-12-31'),
+                                                              DateTime.parse(
+                                                                  '2024-12-31'),
                                                         );
                                                         _estimatedCheckinDateController
                                                             .text = DateFormat(
-                                                            'yyyy-MM-dd')
+                                                                'yyyy-MM-dd')
                                                             .format(date!);
                                                       } catch (error) {
                                                         _estimatedCheckinDateController
@@ -601,8 +662,8 @@ class _ItemScreenState extends State<ItemScreen> {
 
                                                       controller:
                                                           _estimatedCheckinDateController,
-                                                      type:
-                                                          TextInputType.datetime,
+                                                      type: TextInputType
+                                                          .datetime,
                                                       hint:
                                                           "estimated CheckIn Date",
                                                       // prefix: Icons.qr_code_rounded,
@@ -618,11 +679,10 @@ class _ItemScreenState extends State<ItemScreen> {
                                                   width: 250,
                                                   child: defaultTextFormField(
                                                     controller:
-                                                    _workOrderController,
+                                                        _workOrderController,
                                                     type:
-                                                    TextInputType.datetime,
-                                                    hint:
-                                                    "work order...",
+                                                        TextInputType.datetime,
+                                                    hint: "work order...",
                                                   ),
                                                 ),
                                               ),

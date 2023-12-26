@@ -49,5 +49,9 @@ class ItemCubit extends Cubit<ItemStates> {
     }).catchError((error) {
       emit(ItemCheckoutErrorState(message: error));
     });
+void commenting(){
+  emit(ItemCommentingState());
+
+}
   }
 }
