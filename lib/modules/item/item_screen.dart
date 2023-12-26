@@ -31,8 +31,9 @@ class ItemScreen extends StatefulWidget {
 class _ItemScreenState extends State<ItemScreen> {
   final TextEditingController _companyController = TextEditingController();
   final TextEditingController _jobNameController = TextEditingController();
-  final TextEditingController _estimatedCheckoutDateController =
-      TextEditingController();
+  final TextEditingController _workOrderController = TextEditingController();
+  final TextEditingController _estimatedCheckoutDateController = TextEditingController();
+  final TextEditingController _estimatedCheckinDateController = TextEditingController();
 
   String? dropdownValue = 'Assign';
   @override
@@ -343,41 +344,44 @@ class _ItemScreenState extends State<ItemScreen> {
                                                         width: 250,
                                                         child: Column(
                                                           children: [
-                                                            defaultTextFormField(
+                                                            GestureDetector(
                                                               onTap: () async {
-                                                                try {
-                                                                  var date =
-                                                                      await showDatePicker(
-                                                                    context:
-                                                                        context,
-                                                                    initialDate:
-                                                                        DateTime
-                                                                            .now(),
-                                                                    firstDate:
-                                                                        DateTime
-                                                                            .now(),
-                                                                    lastDate: DateTime
-                                                                        .parse(
-                                                                            '2024-12-31'),
-                                                                  );
-                                                                  _estimatedCheckoutDateController
-                                                                      .text = DateFormat
-                                                                          .yMMMd()
-                                                                      .format(
-                                                                          date!);
-                                                                } catch (error) {
-                                                                  _estimatedCheckoutDateController
-                                                                      .text = "";
-                                                                }
-                                                              },
-                                                              controller:
-                                                                  _estimatedCheckoutDateController,
-                                                              type:
-                                                                  TextInputType
-                                                                      .datetime,
-                                                              hint:
-                                                                  "estimated Checkout Date",
-                                                              // prefix: Icons.qr_code_rounded,
+                                                  try {
+                                                  var date =
+                                                  await showDatePicker(
+                                                  context:
+                                                  context,
+                                                  initialDate:
+                                                  DateTime
+                                                      .now(),
+                                                  firstDate:
+                                                  DateTime
+                                                      .now(),
+                                                  lastDate: DateTime
+                                                      .parse(
+                                                  '2024-12-31'),
+                                                  );
+                                                  _estimatedCheckoutDateController
+                                                      .text = DateFormat
+                                                      .yMMMd()
+                                                      .format(
+                                                  date!);
+                                                  } catch (error) {
+                                                  _estimatedCheckoutDateController
+                                                      .text = "";
+                                                  }
+                                                  },
+                                                              child: defaultTextFormField(
+                                                                enable: false,
+                                                                controller:
+                                                                    _estimatedCheckoutDateController,
+                                                                type:
+                                                                    TextInputType
+                                                                        .datetime,
+                                                                hint:
+                                                                    "estimated Checkout Date",
+                                                                // prefix: Icons.qr_code_rounded,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -526,36 +530,99 @@ class _ItemScreenState extends State<ItemScreen> {
                                                 child: SizedBox(
                                                   // height: 50,
                                                   width: 250,
-                                                  child: defaultTextFormField(
+                                                  child: GestureDetector(
                                                     onTap: () async {
                                                       try {
                                                         var date =
-                                                            await showDatePicker(
+                                                        await showDatePicker(
                                                           context: context,
                                                           initialDate:
-                                                              DateTime.now(),
+                                                          DateTime.now(),
                                                           firstDate:
-                                                              DateTime.now(),
+                                                          DateTime.now(),
                                                           lastDate:
-                                                              DateTime.parse(
-                                                                  '2024-12-31'),
+                                                          DateTime.parse(
+                                                              '2024-12-31'),
                                                         );
                                                         _estimatedCheckoutDateController
                                                             .text = DateFormat(
-                                                                'yyyy-MM-dd')
+                                                            'yyyy-MM-dd')
                                                             .format(date!);
                                                       } catch (error) {
                                                         _estimatedCheckoutDateController
                                                             .text = "";
                                                       }
                                                     },
+                                                    child: defaultTextFormField(
+                                                      enable: false,
+
+                                                      controller:
+                                                          _estimatedCheckoutDateController,
+                                                      type:
+                                                          TextInputType.datetime,
+                                                      hint:
+                                                          "estimated CheckOut Date",
+                                                      // prefix: Icons.qr_code_rounded,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10,),
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: SizedBox(
+                                                  // height: 50,
+                                                  width: 250,
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      try {
+                                                        var date =
+                                                        await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                          DateTime.now(),
+                                                          firstDate:
+                                                          DateTime.now(),
+                                                          lastDate:
+                                                          DateTime.parse(
+                                                              '2024-12-31'),
+                                                        );
+                                                        _estimatedCheckinDateController
+                                                            .text = DateFormat(
+                                                            'yyyy-MM-dd')
+                                                            .format(date!);
+                                                      } catch (error) {
+                                                        _estimatedCheckinDateController
+                                                            .text = "";
+                                                      }
+                                                    },
+                                                    child: defaultTextFormField(
+                                                      enable: false,
+
+                                                      controller:
+                                                          _estimatedCheckinDateController,
+                                                      type:
+                                                          TextInputType.datetime,
+                                                      hint:
+                                                          "estimated CheckIn Date",
+                                                      // prefix: Icons.qr_code_rounded,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: SizedBox(
+                                                  // height: 50,
+                                                  width: 250,
+                                                  child: defaultTextFormField(
                                                     controller:
-                                                        _estimatedCheckoutDateController,
+                                                    _workOrderController,
                                                     type:
-                                                        TextInputType.datetime,
+                                                    TextInputType.datetime,
                                                     hint:
-                                                        "estimated Checkout Date",
-                                                    // prefix: Icons.qr_code_rounded,
+                                                    "work order...",
                                                   ),
                                                 ),
                                               ),
