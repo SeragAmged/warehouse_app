@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warehouse_app/shared/components/variables.dart';
 import '../network/local/cache_helper.dart';
 
 void navigateTo(context, pageTo) {
@@ -22,4 +23,9 @@ void logOut(context) {
       if (value) navigateToWithReplacement(context, const Placeholder());
     },
   );
+}
+
+void tokenSaveLocal(String myToken) {
+  CacheHelper.setData(key: 'token', value: myToken);
+  token = myToken;
 }

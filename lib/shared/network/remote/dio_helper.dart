@@ -6,8 +6,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "http://192.168.43.88:8000/",
-        
+        baseUrl: "http://192.168.1.6:8080/",
         receiveDataWhenStatusError: true,
       ),
     );
@@ -34,7 +33,7 @@ class DioHelper {
     String? token,
   }) async {
     dio.options.headers = {
-      'Authorization': token,
+      'Authorization': 'Bearer $token',
       // 'lang': lang,
     };
     return dio.post(

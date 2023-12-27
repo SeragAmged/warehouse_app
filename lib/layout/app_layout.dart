@@ -1,7 +1,10 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:warehouse_app/layout/cubit/cubit.dart';
 import 'package:warehouse_app/layout/cubit/states.dart';
+import 'package:warehouse_app/modules/login/cubit/cubit.dart';
+import 'package:warehouse_app/modules/login/cubit/states.dart';
 import 'package:warehouse_app/modules/settings/settings_screen.dart';
 import 'package:warehouse_app/shared/components/functions.dart';
 import 'package:warehouse_app/styles/icon_broken.dart';
@@ -41,7 +44,18 @@ class AppLayout extends StatelessWidget {
                       ],
           ),
           body: SafeArea(
-            child: cubit.screens[cubit.currentBottomNavIndex],
+            child: BlocConsumer<LoginCubit, LoginStates>(
+              listener: (BuildContext context, LoginStates state) {},
+              builder: (BuildContext context, state) {
+                return ConditionalBuilder(
+                    condition: LoginCubit.get(context).userModel == null,
+                    builder: (context) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                    fallback: (context) =>
+                        cubit.screens[cubit.currentBottomNavIndex]);
+              },
+            ),
           ),
           bottomNavigationBar: BottomNavigationBar(
             elevation: 10,

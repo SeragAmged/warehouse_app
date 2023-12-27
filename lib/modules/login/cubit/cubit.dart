@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:warehouse_app/models/user_model.dart';
 import 'package:warehouse_app/modules/login/cubit/states.dart';
+import 'package:warehouse_app/shared/components/functions.dart';
 import 'package:warehouse_app/shared/network/remote/dio_helper.dart';
 import 'package:warehouse_app/shared/network/remote/end_points.dart';
 
@@ -17,14 +19,43 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(LoginViabilityChangeState());
   }
 
+  UserModel? userModel;
   void userLogin({required String email, required String password}) async {
     {
       emit(LoginLoadingState());
-      await Future.delayed(const Duration(seconds: 2));
-      emit(LoginSuccessState());
-      // emit(LoginErrorState(error: error.toString()));
+      DioHelper.postData(url: '/token', data: {
+        'username': email,
+        'password': password,
+      }).then(
+        (value) {
+          if (value.data['access_token']) {
+            DioHelper.postData(
+              url: '/employees/me',
+              data: {},
+              token: value.data['access_token'],
+            ).then(
+              (value) {
+                print("a7a 0");
+                tokenSaveLocal(value.data['access_token']);
+                userModel = UserModel.fromJson(value.data);
+                emit(LoginSuccessState());
+              },
+            ).catchError(
+              (error) {
+                print("a7a 1");
+
+                emit(LoginErrorState(error: error.toString()));
+              },
+            );
+          }
+        },
+      ).catchError(
+        (error) {
+          print("a7a 2");
+
+          emit(LoginErrorState(error: error.toString()));
+        },
+      );
     }
   }
-
-  
 }
