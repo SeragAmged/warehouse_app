@@ -7,8 +7,7 @@ class ItemChangeNavState extends ItemStates {}
 class ItemCheckoutLoadingState extends ItemStates {}
 
 class ItemCheckoutSuccessState extends ItemStates {
-  final String message;
-  ItemCheckoutSuccessState({required this.message});
+
 }
 
 class ItemCheckoutErrorState extends ItemStates {

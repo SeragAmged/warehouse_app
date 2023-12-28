@@ -44,17 +44,12 @@ class AppLayout extends StatelessWidget {
                       ],
           ),
           body: SafeArea(
-            child: BlocConsumer<LoginCubit, LoginStates>(
-              listener: (BuildContext context, LoginStates state) {},
-              builder: (BuildContext context, state) {
-                return ConditionalBuilder(
-                    condition: LoginCubit.get(context).userModel == null,
-                    builder: (context) => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                    fallback: (context) =>
-                        cubit.screens[cubit.currentBottomNavIndex]);
-              },
+            child: ConditionalBuilder(
+              condition: cubit.userModel != null,
+              builder: (context) => cubit.screens[cubit.currentBottomNavIndex],
+              fallback: (context) => const Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(

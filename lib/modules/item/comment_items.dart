@@ -11,16 +11,16 @@ Widget buildCommentItem(List<dynamic> comments, BuildContext context) {
             CircleAvatar(
               radius: 15,
               backgroundColor: Colors.grey.shade100,
-              child: Icon(
+              child: const Icon(
                 IconBroken.profile,
                 color: primaryColor,
                 size: 20,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -35,8 +35,8 @@ Widget buildCommentItem(List<dynamic> comments, BuildContext context) {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10.0,top: 8,left: 35),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 10.0,top: 8,left: 35),
           child: Text(
             "content goes here . .. sdksjdksjkdjsd ",
             style: TextStyle(fontSize: 12),

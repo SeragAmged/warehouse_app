@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:warehouse_app/layout/cubit/states.dart';
 import 'package:warehouse_app/models/item_model.dart';
+import 'package:warehouse_app/models/user_model.dart';
 import 'package:warehouse_app/modules/items/items_screen.dart';
 import 'package:warehouse_app/modules/my_items/my_items_screen.dart';
 import 'package:warehouse_app/modules/qr/qr_screen.dart';
 import 'package:warehouse_app/modules/settings/settings_screen.dart';
+import 'package:warehouse_app/shared/components/functions.dart';
+import 'package:warehouse_app/shared/components/variables.dart';
 import 'package:warehouse_app/shared/network/local/cache_helper.dart';
 import 'package:warehouse_app/shared/network/remote/dio_helper.dart';
 import 'package:warehouse_app/shared/network/remote/end_points.dart';
@@ -50,16 +53,39 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppChangeBottomNavState());
   }
 
-  List<ItemModel>? itemModel = [];
+  List<ItemModel> itemModel = [];
   void getItems() {
     emit(AppGetDataLoadingState());
-    DioHelper.getData(url: items).then((value) {
+    print("ghsdshsaarhgdddddddd");
+    DioHelper.getData(url: 'items/').then((value) {
       for (int i = 0; i < value.data.length; i++) {
-        itemModel?.add(ItemModel.fromJson(value.data[i]));
+        itemModel.add(ItemModel.fromJson(value.data[i]));
       }
       emit(AppGetDataSuccessState());
     }).catchError((error) {
       emit(AppGetDataErrorState(error: error));
+    });
+  }
+
+  UserModel? userModel;
+
+  void getUserData() {
+    emit(UserGetDataLoadingState());
+    print(token);
+    DioHelper.getData(
+      url: 'employees/me',
+      token: token,
+      query: {
+        'access_token': token,
+        'token_type': "Bearer",
+      },
+    ).then((value) {
+      print(value.data);
+      userModel = UserModel.fromJson(value.data);
+      iDSaveLocal(userModel!.sesaId!);
+      emit(UserGetDataSuccessState());
+    }).catchError((error) {
+      emit(UserGetDataErrorState(error: error));
     });
   }
 

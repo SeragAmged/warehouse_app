@@ -29,3 +29,8 @@ void tokenSaveLocal(String myToken) {
   CacheHelper.setData(key: 'token', value: myToken);
   token = myToken;
 }
+
+void iDSaveLocal(int mySesaId) {
+  CacheHelper.setData(key: 'sesa', value: mySesaId);
+  sesaID = mySesaId;
+}

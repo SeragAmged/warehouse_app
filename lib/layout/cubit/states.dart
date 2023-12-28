@@ -10,15 +10,16 @@ class AppGetDataErrorState extends AppStates {
   final String error;
   AppGetDataErrorState({required this.error});
 }
-//Email Verification
-class AppEmailVerificationLoadingState extends AppStates {}
 
-class AppEmailVerificationSuccessState extends AppStates {}
+class UserGetDataLoadingState extends AppStates {}
 
-class AppEmailVerificationErrorState extends AppStates {
+class UserGetDataSuccessState extends AppStates {}
+
+class UserGetDataErrorState extends AppStates {
   final String error;
-  AppEmailVerificationErrorState({required this.error});
+  UserGetDataErrorState({required this.error});
 }
+
 
 //Email Update Verification
 class AppUpdateEmailVerificationLoadingState extends AppStates {}

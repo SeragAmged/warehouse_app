@@ -11,7 +11,7 @@ class DoneScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
+          const Center(
             child: Padding(
               padding: EdgeInsets.only(
                 left: 50.0,
@@ -25,23 +25,23 @@ class DoneScreen extends StatelessWidget {
               ),
             ),
           ),
-          Text(
+          const Text(
             "Well Done",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),
-          Text(
+          const Text(
             "your operation Done\n waiting to see you again",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 15),
           ),
           Padding(
             padding:
-             EdgeInsets.all(
+             const EdgeInsets.all(
                 50.0),
             child: SizedBox(
               width: double.infinity,
               child: DefaultButton(
-                  child: Text(
+                  child: const Text(
                     "Browse more items",
                     style: TextStyle(
                       fontSize: 20,

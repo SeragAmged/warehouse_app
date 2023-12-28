@@ -1,4 +1,3 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +6,7 @@ import 'package:warehouse_app/modules/item/cubit/cubit.dart';
 import 'package:warehouse_app/modules/item/cubit/states.dart';
 import 'package:warehouse_app/modules/item/navbar_item.dart';
 import 'package:warehouse_app/shared/components/components.dart';
+import 'package:warehouse_app/shared/components/variables.dart';
 import 'package:warehouse_app/styles/icon_broken.dart';
 
 import '../../models/comment_model.dart';
@@ -18,7 +18,7 @@ class ItemScreen extends StatefulWidget {
   final String image;
   final String details;
   final String sheet;
-  final int id;
+  final int seId;
 
   const ItemScreen(
       {super.key,
@@ -27,7 +27,7 @@ class ItemScreen extends StatefulWidget {
       required this.image,
       required this.details,
       required this.sheet,
-      required this.id});
+      required this.seId});
 
   @override
   State<ItemScreen> createState() => _ItemScreenState();
@@ -39,7 +39,9 @@ class _ItemScreenState extends State<ItemScreen> {
   final TextEditingController _commentController = TextEditingController();
   final TextEditingController _jobNameController = TextEditingController();
   final TextEditingController _workOrderController = TextEditingController();
-  final TextEditingController _estimatedCheckoutDateController =
+  final TextEditingController _bookWorkOrderController =
+      TextEditingController();
+  final TextEditingController _bookEstimatedCheckoutDateController =
       TextEditingController();
   final TextEditingController _estimatedCheckinDateController =
       TextEditingController();
@@ -79,14 +81,7 @@ class _ItemScreenState extends State<ItemScreen> {
     return BlocProvider(
       create: (context) => ItemCubit(),
       child: BlocConsumer<ItemCubit, ItemStates>(
-        listener: (context, state) {
-          if (state is ItemCheckoutSuccessState) {
-            toast(
-                context: context,
-                message: state.message,
-                state: ToastState.success);
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           final GlobalKey<ScaffoldState> scaffoldKey =
               GlobalKey<ScaffoldState>();
@@ -177,11 +172,6 @@ class _ItemScreenState extends State<ItemScreen> {
                         onTap: cubit.changBottomNavIndex,
                         title: "Details",
                       ),
-                      //TODO: Handle comments section
-                      /*
-                      wrap coments with inkwell to open user page
-
-                     */
                       NavBarItem(
                         index: 2,
                         currentNavIndex: cubit.currentNavIndex,
@@ -434,13 +424,13 @@ class _ItemScreenState extends State<ItemScreen> {
                                                                       .parse(
                                                                           '2024-12-31'),
                                                                 );
-                                                                _estimatedCheckoutDateController
-                                                                    .text = DateFormat
-                                                                        .yMMMd()
+                                                                _estimatedCheckinDateController
+                                                                    .text = DateFormat(
+                                                                        'yyyy-MM-dd')
                                                                     .format(
                                                                         date!);
                                                               } catch (error) {
-                                                                _estimatedCheckoutDateController
+                                                                _estimatedCheckinDateController
                                                                     .text = "";
                                                               }
                                                             },
@@ -448,12 +438,12 @@ class _ItemScreenState extends State<ItemScreen> {
                                                                 defaultTextFormField(
                                                               enable: false,
                                                               controller:
-                                                                  _estimatedCheckoutDateController,
+                                                                  _estimatedCheckinDateController,
                                                               type:
                                                                   TextInputType
                                                                       .datetime,
                                                               hint:
-                                                                  "estimated Checkout Date",
+                                                                  "estimated Check-in Date",
                                                               // prefix: Icons.qr_code_rounded,
                                                             ),
                                                           ),
@@ -472,6 +462,14 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             type: TextInputType
                                                                 .text,
                                                             hint: "Job Name...",
+                                                            // prefix: Icons.qr_code_rounded,
+                                                          ),
+                                                          defaultTextFormField(
+                                                            controller:
+                                                                _workOrderController,
+                                                            type: TextInputType
+                                                                .number,
+                                                            hint: "Work Order",
                                                             // prefix: Icons.qr_code_rounded,
                                                           ),
                                                         ],
@@ -514,19 +512,43 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     ),
                                                   ),
                                                   onPressed: () {
+                                                    print("presesd");
+                                                    print(widget.seId);
+                                                    print(sesaID);
+                                                    print(_jobNameController
+                                                        .text);
+                                                    print(_companyController
+                                                        .text);
+                                                    print(
+                                                        _estimatedCheckinDateController
+                                                            .text);
+                                                    print(int.parse(
+                                                      _workOrderController.text,
+                                                    ));
+
                                                     cubit.createCheckOut(
-                                                      itemId: widget.id,
-                                                      employeeId: 1,
+                                                      seId: widget.seId,
+                                                      sesaId: sesaID,
+                                                      workOrder: int.parse(
+                                                        _workOrderController
+                                                            .text,
+                                                      ),
                                                       estimatedCheckInDate:
-                                                          _estimatedCheckoutDateController
+                                                          _estimatedCheckinDateController
                                                               .text,
-                                                      jobAssigned:
-                                                          _jobNameController
+                                                      jobName: _jobNameController
+                                                              .text.isEmpty
+                                                          ? null
+                                                          : _jobNameController
                                                               .text,
                                                       companyLended:
                                                           _companyController
-                                                              .text,
+                                                                  .text.isEmpty
+                                                              ? null
+                                                              : _companyController
+                                                                  .text,
                                                     );
+                                                    print("done");
                                                   },
                                                 ),
                                               ),
@@ -613,12 +635,12 @@ class _ItemScreenState extends State<ItemScreen> {
                                                             DateTime.parse(
                                                                 '2024-12-31'),
                                                       );
-                                                      _estimatedCheckoutDateController
+                                                      _bookEstimatedCheckoutDateController
                                                           .text = DateFormat(
                                                               'yyyy-MM-dd')
                                                           .format(date!);
                                                     } catch (error) {
-                                                      _estimatedCheckoutDateController
+                                                      _bookEstimatedCheckoutDateController
                                                           .text = "";
                                                     }
                                                   },
@@ -626,56 +648,11 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     enable: false,
 
                                                     controller:
-                                                        _estimatedCheckoutDateController,
+                                                        _bookEstimatedCheckoutDateController,
                                                     type:
                                                         TextInputType.datetime,
                                                     hint:
                                                         "estimated CheckOut Date",
-                                                    // prefix: Icons.qr_code_rounded,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: SizedBox(
-                                                // height: 50,
-                                                width: 250,
-                                                child: GestureDetector(
-                                                  onTap: () async {
-                                                    try {
-                                                      var date =
-                                                          await showDatePicker(
-                                                        context: context,
-                                                        initialDate:
-                                                            DateTime.now(),
-                                                        firstDate:
-                                                            DateTime.now(),
-                                                        lastDate:
-                                                            DateTime.parse(
-                                                                '2024-12-31'),
-                                                      );
-                                                      _estimatedCheckinDateController
-                                                          .text = DateFormat(
-                                                              'yyyy-MM-dd')
-                                                          .format(date!);
-                                                    } catch (error) {
-                                                      _estimatedCheckinDateController
-                                                          .text = "";
-                                                    }
-                                                  },
-                                                  child: defaultTextFormField(
-                                                    enable: false,
-
-                                                    controller:
-                                                        _estimatedCheckinDateController,
-                                                    type:
-                                                        TextInputType.datetime,
-                                                    hint:
-                                                        "estimated CheckIn Date",
                                                     // prefix: Icons.qr_code_rounded,
                                                   ),
                                                 ),
@@ -689,8 +666,8 @@ class _ItemScreenState extends State<ItemScreen> {
                                                 width: 250,
                                                 child: defaultTextFormField(
                                                   controller:
-                                                      _workOrderController,
-                                                  type: TextInputType.datetime,
+                                                      _bookWorkOrderController,
+                                                  type: TextInputType.number,
                                                   hint: "work order...",
                                                 ),
                                               ),
@@ -711,11 +688,12 @@ class _ItemScreenState extends State<ItemScreen> {
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    cubit.createCheckOut(
+                                                    //TODO: BOOK
+                                                    /* cubit.createCheckOut(
                                                       itemId: widget.id,
                                                       employeeId: 1,
                                                       estimatedCheckInDate:
-                                                          _estimatedCheckoutDateController
+                                                          _bookEstimatedCheckoutDateController
                                                               .text,
                                                       jobAssigned:
                                                           _jobNameController
@@ -723,7 +701,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                                       companyLended:
                                                           _companyController
                                                               .text,
-                                                    );
+                                                    ); */
                                                   },
                                                 ),
                                               ),

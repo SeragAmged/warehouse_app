@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:warehouse_app/modules/register/cubit/states.dart';
 import 'package:warehouse_app/shared/network/remote/dio_helper.dart';
-import 'package:warehouse_app/shared/network/remote/end_points.dart';
 
 class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInitialState());

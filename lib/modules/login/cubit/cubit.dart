@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:warehouse_app/models/user_model.dart';
+import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:warehouse_app/modules/login/cubit/states.dart';
 import 'package:warehouse_app/shared/components/functions.dart';
-import 'package:warehouse_app/shared/network/remote/dio_helper.dart';
-import 'package:warehouse_app/shared/network/remote/end_points.dart';
+import 'package:warehouse_app/shared/components/variables.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
@@ -19,43 +18,51 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(LoginViabilityChangeState());
   }
 
-  UserModel? userModel;
-  void userLogin({required String email, required String password}) async {
-    {
-      emit(LoginLoadingState());
-      DioHelper.postData(url: '/token', data: {
-        'username': email,
-        'password': password,
-      }).then(
-        (value) {
-          if (value.data['access_token']) {
-            DioHelper.postData(
-              url: '/employees/me',
-              data: {},
-              token: value.data['access_token'],
-            ).then(
-              (value) {
-                print("a7a 0");
-                tokenSaveLocal(value.data['access_token']);
-                userModel = UserModel.fromJson(value.data);
-                emit(LoginSuccessState());
-              },
-            ).catchError(
-              (error) {
-                print("a7a 1");
+  // void userLogin({required String email, required String password}) async {
+  //   {
+  //     emit(LoginLoadingState());
+  //     DioHelper.postData(url: '/token', data: {
+  //       'username': email,
+  //       'password': password,
+  //       "grant_type": "password",
+  //       "scope": "employee", // Specify the desired scope if applicable
+  //       "client_id": "", // Replace with your client ID
+  //       "client_secret": "",
+  //     }).then(
+  //       (value) {
+  //         tokenSaveLocal(value.data['access_token']);
+  //         print(value.data);
+  //         emit(LoginSuccessState());
+  //       },
+  //     ).catchError(
+  //       (error) {
+  //         print(error);
+  //         emit(LoginErrorState(error: error.toString()));
+  //       },
+  //     );
+  //   }
+  // }
 
-                emit(LoginErrorState(error: error.toString()));
-              },
-            );
-          }
-        },
-      ).catchError(
-        (error) {
-          print("a7a 2");
+  Future<void> userLogin(
+      {required String email, required String password}) async {
+    emit(LoginLoadingState());
+    final tokenEndpoint = Uri.parse('http://192.168.1.5:8080/login');
+    oauth2
+        .resourceOwnerPasswordGrant(
+      tokenEndpoint,
+      email,
+      password,
+    )
+        .then(
+      (value) {
+        tokenSaveLocal(value.credentials.accessToken);
+        print(token);
+        emit(LoginSuccessState());
+      },
+    ).catchError((error) {
+      emit(LoginErrorState(error: error.toString()));
+    });
 
-          emit(LoginErrorState(error: error.toString()));
-        },
-      );
-    }
+    // Emit login success state
   }
 }

@@ -28,28 +28,46 @@ class ItemCubit extends Cubit<ItemStates> {
     emit(ItemChangeNavState());
   }
 
+  /*
+  {
+  "item_id": 0,
+  "employee_id": 0,
+  "work_order": 0,
+  "jop_name": "string",
+  "company_lended": "string",
+  "estimated_Check_in_Date": "2023-12-28",
+  "date": "2023-12-27",
+  "time": "22:36:18.872507"
+} 
+   */
+
   void createCheckOut({
-    required int itemId,
-    required int employeeId,
+    required int seId,
+    required int sesaId,
     required String estimatedCheckInDate,
-    required String? jobAssigned,
+    required String? jobName,
+    required int? workOrder,
     required String? companyLended,
   }) {
     emit(ItemCheckoutLoadingState());
-    DioHelper.postData(url: check_outs, data: {
-      "item_id": itemId,
-      "employee_id": employeeId,
-      "estimated_Check_in_Date": estimatedCheckInDate,
-      "check_out_date": DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      "check_out_time": DateFormat('HH:mm:ss').format(DateTime.now()),
-      "job_assigned": jobAssigned,
-      "company_lended": companyLended,
-    }).then((value) {
-      emit(ItemCheckoutSuccessState(message: value.data));
+    DioHelper.postData(
+      url: "items/check_out/$seId",
+      data: {
+        "item_id": 0,
+        "employee_id": 0,
+        "work_order": workOrder,
+        "jop_name": jobName,
+        "company_lended": companyLended,
+        "estimated_Check_in_Date": estimatedCheckInDate,
+        "date": "2023-12-27",
+        "time": "22:36:18.872507",
+      },
+      query: {"employee_sesa_id": sesaId},
+
+    ).then((value) {
+      emit(ItemCheckoutSuccessState());
     }).catchError((error) {
       emit(ItemCheckoutErrorState(message: error));
     });
-
-
   }
 }

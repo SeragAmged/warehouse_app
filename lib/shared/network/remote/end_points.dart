@@ -8,3 +8,5 @@ const String branches = 'branches';
 const String employees = 'employees';
 const String tools = 'tools';
 const String items = 'items';
+const String defaultImage =
+    "https://media.megger.com/mediacontainer/medialibraries/meggerglobal/product-images/mit510-2/image_1-small-auto-sized.jpg";

@@ -5,7 +5,7 @@ class CommentField extends StatefulWidget {
   final FocusNode commentFocus;
   final VoidCallback submitComment;
 
-   CommentField({
+   const CommentField({
     required Key key,
     required this.commentController,
     required this.commentFocus,
@@ -13,10 +13,10 @@ class CommentField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CommentFieldState createState() => _CommentFieldState();
+  CommentFieldState createState() => CommentFieldState();
 }
 
-class _CommentFieldState extends State<CommentField> {
+class CommentFieldState extends State<CommentField> {
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -27,7 +27,7 @@ class _CommentFieldState extends State<CommentField> {
                 ? Padding(
               padding: const EdgeInsets.only(bottom: 5.0, right: 5),
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_circle_right_rounded,
                   size: 40,
                 ),

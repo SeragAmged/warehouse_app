@@ -6,7 +6,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "http://192.168.1.6:8080/",
+        baseUrl: "http://192.168.1.5:8080/",
         receiveDataWhenStatusError: true,
       ),
     );
@@ -17,9 +17,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     String? token,
   }) async {
-    dio.options.headers = {
-      // 'Authorization': token,
-    };
+    dio.options.headers = {'access_token': token, 'token_type': "Bearer"};
     return await dio.get(
       url,
       queryParameters: query,
@@ -28,13 +26,12 @@ class DioHelper {
 
   static Future<Response> postData({
     required String url,
-    required Map<String, dynamic> data,
+    required Map<String, dynamic>? data,
     Map<String, dynamic>? query,
     String? token,
   }) async {
     dio.options.headers = {
-      'Authorization': 'Bearer $token',
-      // 'lang': lang,
+      'Authorization': token,
     };
     return dio.post(
       url,

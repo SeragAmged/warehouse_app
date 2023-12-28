@@ -49,10 +49,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AppCubit()..getItems()),
+        BlocProvider(
+            create: (context) => AppCubit()
+              ..getUserData()
+              ..getItems()),
         BlocProvider(create: (context) => ItemByIdCubit()),
       ],
       child: MaterialApp(

@@ -4,7 +4,7 @@ import 'package:warehouse_app/shared/components/functions.dart';
 
 class ItemWidget extends StatelessWidget {
   final String name;
-  final int id;
+  final int seId;
   final String statue;
   final String image;
 
@@ -14,7 +14,7 @@ class ItemWidget extends StatelessWidget {
   const ItemWidget(
       {super.key,
       required this.name,
-      required this.id,
+      required this.seId,
       required this.statue,
       required this.image,
       required this.detail,
@@ -50,7 +50,7 @@ class ItemWidget extends StatelessWidget {
               navigateTo(
                 context,
                 ItemScreen(
-                  id: id,
+                  seId: seId,
                   image: image,
                   name: name,
                   statue: statue,
@@ -81,7 +81,7 @@ class ItemWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "ID: $id",
+                            "ID: $seId",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
