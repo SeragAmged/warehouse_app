@@ -1,9 +1,14 @@
-# warehouse_app
+# Warehouse App
 
-A new Flutter project.
+> [!IMPORTANT]
+> This project has been redirected to a private repository and is still under development.
 
-## Follow TODO tags
+## Project Status
+- **Current State**: Active Development
+- **Repository**: Private (Access restricted)
 
-## add TODO tree extension from  [here](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
+## Design Preview
+Below is a preview of the Figma design for the Warehouse Management application.
 
-## and follow design [here](https://www.figma.com/file/1FTKDSRMl3LAiVxANtF1ik/Untitled?type=design&node-id=47%3A13795&mode=design&t=zlvaP0AxvoePIl82-1)
+![Figma Design Preview](assets/figma_design.png)
+
