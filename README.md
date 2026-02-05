@@ -10,5 +10,6 @@
 ## Design Preview
 Below is a preview of the Figma design for the Warehouse Management application.
 
-![Figma Design Preview](assets/figma_design.png)
-
+<div>
+  <img src="assets/figma_design.png" alt="Warehouse App design"/>
+</div>
