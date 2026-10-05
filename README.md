@@ -1,3 +1,6 @@
+> [!WARNING]
+> **The code in this repository is deprecated.** The current, actively developed version of this app lives in a private repository, and this README describes that version.
+
 # WAREHOUSE
 
 A Flutter app that lets engineers and technicians borrow tools from a company warehouse and return them. It tracks calibrated equipment and shows what's checked out and what's overdue. Scanning a QR code opens the item's details.
@@ -5,7 +8,7 @@ A Flutter app that lets engineers and technicians borrow tools from a company wa
 
 Built for a real warehouse workflow: the idea came from an engineer at a company that runs one, and it targets the problem of tracking who has which tool. <!-- TODO: confirm wording; company name intentionally not mentioned -->
 
-> The source code lives in a private repository; this repo hosts the project overview. File names in backticks below refer to that codebase.
+> File names in backticks below refer to the private codebase.
 
 ## App screens
 
